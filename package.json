@@ -1,0 +1,33 @@
+{
+  "name": "webping",
+  "version": "0.1.0",
+  "description": "Web Ping Utility",
+  "main": "bin/wp",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/tadman/webping.git"
+  },
+  "keywords": [
+    "http",
+    "ping"
+  ],
+  "author": "Scott Tadman <github@tadman.ca>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tadman/webping/issues"
+  },
+  "homepage": "https://github.com/tadman/webping#readme",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "commander": "^2.9.0",
+    "request": "^2.80.0",
+    "sprintf": "^0.1.5"
+  },
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.2.0"
+  }
+}

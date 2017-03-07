@@ -1,0 +1,58 @@
+#!/usr/bin/env node
+
+// == Imports ===============================================================
+
+const sprintf = require('sprintf');
+const Writable = require('stream').Writable;
+
+const WebPing = require('../lib/webping');
+const urlify = require('../lib/urlify');
+
+// == Support Classes =======================================================
+
+class PingDisplay extends Writable {
+  constructor() {
+    super({ objectMode: true });
+  }
+
+  _write(response, encoding, cb) {
+    console.log(
+      sprintf(
+        '%s %4d %6.2fms %s',
+        response.wp.target,
+        response.wp.sequence,
+        response.wp.timings.total || 0,
+        response.wp.code
+      )
+    );
+
+    cb();
+  }
+}
+
+// == Main ==================================================================
+
+var program = require('commander');
+
+program
+  .option('-v, --version', 'Display version number', () => {
+    console.log('WebPing Version ' + WebPing.version());
+    process.exit(0);
+  })
+  .option('-t, --timeout [timeout]', 'Set timeout for each request', parseFloat)
+  .option('-r, --repeat [interval]', 'Ping every N seconds', parseFloat)
+
+program.parse(process.argv);
+
+var display = new PingDisplay();
+
+program.args.forEach((arg) => {
+  url = urlify(arg);
+
+  var wp = new WebPing(url, {
+    timeout: program.timeout,
+    repeat: program.repeat
+  });
+
+  wp.pipe(display);
+});
